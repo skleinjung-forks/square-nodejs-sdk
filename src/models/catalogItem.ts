@@ -39,6 +39,14 @@ export interface CatalogItem {
   /** The ID of the item's category, if any. */
   categoryId?: string;
   /**
+   * Undocumented 'ecom_available' flag available in API Version 5/13/2021
+   */
+  ecomAvailable?: boolean;
+  /**
+   * Undocumented 'ecom_visibility' flag available in API Version 5/13/2021
+   */
+  ecomVisibility?: string;
+  /**
    * A set of IDs indicating the taxes enabled for
    * this item. When updating an item, any taxes listed here will be added to the item.
    * Taxes may also be added to or deleted from an item using `UpdateItemTaxes`.
@@ -75,6 +83,10 @@ export interface CatalogItem {
    * It is currently supported for sellers of the Japanese locale only.
    */
   sortName?: string;
+  /**
+   * Undocumented visibility flag available in API Version 5/13/2021
+   */
+  visibility?: string;
 }
 
 export const catalogItemSchema: Schema<CatalogItem> = object({
@@ -86,6 +98,8 @@ export const catalogItemSchema: Schema<CatalogItem> = object({
   availableForPickup: ['available_for_pickup', optional(boolean())],
   availableElectronically: ['available_electronically', optional(boolean())],
   categoryId: ['category_id', optional(string())],
+  ecomAvailable: ['ecom_available', optional(boolean())],
+  ecomVisibility: ['ecom_visibility', optional(string())],
   taxIds: ['tax_ids', optional(array(string()))],
   modifierListInfo: [
     'modifier_list_info',
@@ -99,4 +113,5 @@ export const catalogItemSchema: Schema<CatalogItem> = object({
     optional(array(lazy(() => catalogItemOptionForItemSchema))),
   ],
   sortName: ['sort_name', optional(string())],
+  visibility: ['visibility', optional(string())],
 });
