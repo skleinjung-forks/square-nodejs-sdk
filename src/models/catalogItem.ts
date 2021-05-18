@@ -6,63 +6,72 @@ import {
   optional,
   Schema,
   string,
-} from '../schema';
+} from '../schema'
+
 import {
   CatalogItemModifierListInfo,
   catalogItemModifierListInfoSchema,
-} from './catalogItemModifierListInfo';
+} from './catalogItemModifierListInfo'
 import {
   CatalogItemOptionForItem,
   catalogItemOptionForItemSchema,
-} from './catalogItemOptionForItem';
-import { CatalogObject, catalogObjectSchema } from './catalogObject';
+} from './catalogItemOptionForItem'
+import { CatalogObject, catalogObjectSchema } from './catalogObject'
 
 /** A [CatalogObject]($m/CatalogObject) instance of the `ITEM` type, also referred to as an item, in the catalog. */
 export interface CatalogItem {
   /** The item's name. This is a searchable attribute for use in applicable query filters, its value must not be empty, and the length is of Unicode code points. */
-  name?: string;
+  name?: string
   /** The item's description. This is a searchable attribute for use in applicable query filters, and its value length is of Unicode code points. */
-  description?: string;
+  description?: string
   /**
    * The text of the item's display label in the Square Point of Sale app. Only up to the first five characters of the string are used.
    * This attribute is searchable, and its value length is of Unicode code points.
    */
-  abbreviation?: string;
+  abbreviation?: string
   /** The color of the item's display label in the Square Point of Sale app. This must be a valid hex color code. */
-  labelColor?: string;
+  labelColor?: string
   /** If `true`, the item can be added to shipping orders from the merchant's online store. */
-  availableOnline?: boolean;
+  availableOnline?: boolean
   /** If `true`, the item can be added to pickup orders from the merchant's online store. */
-  availableForPickup?: boolean;
+  availableForPickup?: boolean
   /** If `true`, the item can be added to electronically fulfilled orders from the merchant's online store. */
-  availableElectronically?: boolean;
+  availableElectronically?: boolean
   /** The ID of the item's category, if any. */
-  categoryId?: string;
+  categoryId?: string
   /**
    * Undocumented 'ecom_available' flag available in API Version 5/13/2021
    */
-  ecomAvailable?: boolean;
+  ecomAvailable?: boolean
+  /**
+   * Undocumented URLs of the product images used in the Square online store.
+   */
+  ecomImageUris?: string[]
+  /**
+   * Undocumented URL of the product in the Square online store.
+   */
+  ecomUri?: string
   /**
    * Undocumented 'ecom_visibility' flag available in API Version 5/13/2021
    */
-  ecomVisibility?: string;
+  ecomVisibility?: string
   /**
    * A set of IDs indicating the taxes enabled for
    * this item. When updating an item, any taxes listed here will be added to the item.
    * Taxes may also be added to or deleted from an item using `UpdateItemTaxes`.
    */
-  taxIds?: string[];
+  taxIds?: string[]
   /**
    * A set of `CatalogItemModifierListInfo` objects
    * representing the modifier lists that apply to this item, along with the overrides and min
    * and max limits that are specific to this item. Modifier lists
    * may also be added to or deleted from an item using `UpdateItemModifierLists`.
    */
-  modifierListInfo?: CatalogItemModifierListInfo[];
+  modifierListInfo?: CatalogItemModifierListInfo[]
   /** A list of CatalogObjects containing the `CatalogItemVariation`s for this item. */
-  variations?: CatalogObject[];
+  variations?: CatalogObject[]
   /** The type of a CatalogItem. Connect V2 only allows the creation of `REGULAR` or `APPOINTMENTS_SERVICE` items. */
-  productType?: string;
+  productType?: string
   /**
    * If `false`, the Square Point of Sale app will present the `CatalogItem`'s
    * details screen immediately, allowing the merchant to choose `CatalogModifier`s
@@ -71,22 +80,22 @@ export interface CatalogItem {
    * modifiers, and merchants can edit modifiers by drilling down onto the item's details.
    * Third-party clients are encouraged to implement similar behaviors.
    */
-  skipModifierScreen?: boolean;
+  skipModifierScreen?: boolean
   /**
    * List of item options IDs for this item. Used to manage and group item
    * variations in a specified order.
    * Maximum: 6 item options.
    */
-  itemOptions?: CatalogItemOptionForItem[];
+  itemOptions?: CatalogItemOptionForItem[]
   /**
    * A name to sort the item by. If this name is unspecified, namely, the `sort_name` field is absent, the regular `name` field is used for sorting.
    * It is currently supported for sellers of the Japanese locale only.
    */
-  sortName?: string;
+  sortName?: string
   /**
    * Undocumented visibility flag available in API Version 5/13/2021
    */
-  visibility?: string;
+  visibility?: string
 }
 
 export const catalogItemSchema: Schema<CatalogItem> = object({
@@ -99,6 +108,8 @@ export const catalogItemSchema: Schema<CatalogItem> = object({
   availableElectronically: ['available_electronically', optional(boolean())],
   categoryId: ['category_id', optional(string())],
   ecomAvailable: ['ecom_available', optional(boolean())],
+  ecomImageUris: ['ecom_image_uris', optional(array(string()))],
+  ecomUri: ['ecom_uri', optional(string())],
   ecomVisibility: ['ecom_visibility', optional(string())],
   taxIds: ['tax_ids', optional(array(string()))],
   modifierListInfo: [
@@ -114,4 +125,4 @@ export const catalogItemSchema: Schema<CatalogItem> = object({
   ],
   sortName: ['sort_name', optional(string())],
   visibility: ['visibility', optional(string())],
-});
+})
